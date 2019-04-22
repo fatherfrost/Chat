@@ -1,0 +1,83 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Chat Api
+host: localhost:10010
+basePath: /api
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /message:
+    x-swagger-router-controller: messageController
+    put:
+      description: create message
+      operationId: createMessage
+      parameters:
+        - in: body
+          name: message
+          schema:
+            type: object
+            required:
+              - email
+              - text
+            properties:
+              author:
+                type: string
+              email:
+                type: string
+              text: 
+                type: string
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/Response"
+  /messages/single/{id}:
+    x-swagger-router-controller: messageController
+    get:
+      description: Get a message by ID
+      operationId: getMessageById
+      parameters:
+        - in: path
+          name: id
+          description: ID of message
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/Response"
+  /messages/list/{part}:
+    x-swagger-router-controller: messageController
+    get:
+      operationId: getMessages
+      summary: Get a part of messages
+      parameters:
+        - in: path
+          name: part
+          description: number of part
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: "#/definitions/Response"
+definitions:
+  Response:
+    type: object
+    properties:
+      success:
+        type: boolean
+      errorCode:
+        type: string
+      errorStack:
+        type: array
+        items:
+            type: object
