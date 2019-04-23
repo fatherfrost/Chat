@@ -8,6 +8,10 @@ let conf  = require('./config/config');
 module.exports = app;
 
 mongoose.connect(conf.database);
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./api/swagger/swagger.json');
+
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 var config = {
   appRoot: __dirname
